@@ -1,0 +1,7 @@
+[Unit]
+Description = sensor service
+
+[Service]
+Type = simple
+WorkingDirectory = [path]/Sensor/
+ExecStart = python3 [path]/Sensor/IndoorEnvironment.py

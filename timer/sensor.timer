@@ -1,0 +1,12 @@
+[Unit]
+Description = sensor service with timer
+Wants = multi-user.target
+After = multi-user.target
+
+[Timer]
+OnCalendar = *-*-* *:00/10:00
+RandomizedDelaySec = 5s
+Unit = sensor.service
+
+[Install]
+WantedBy = timers.target
