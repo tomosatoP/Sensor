@@ -1,0 +1,26 @@
+[tool.black]
+target-version = ["py39"]
+line-length = 120
+extend-exclude = '''
+/(
+  | tests/data
+)/
+'''
+
+[tool.flake8]
+max-line-length = 119
+extend-ignore = ["E203", "W503", "W504"]
+max-complexity = 10
+
+[tool.isort]
+profile = "black"
+py_version = 39
+line_length = 120
+
+[tool.mypy]
+python_version = 3.9
+mypy_path = "./my_src"
+
+[[tool.mypy.overrides]]
+module = "boto3.*"
+ignore_missing_imports = true
