@@ -6,13 +6,13 @@
 1. Raspberry Pi Zero WH に microSDカードを挿入
 1. Raspberry Pi Zero WH に PRZ-IR-Sensor Ver.2, 外付けBME280センサーを接続
 1. Raspberry Pi Zero WH を起動
-~~sh
+~~~sh
 ~ $ sudo apt update
 ~ $ sudo apt -y full-upgrade
 ~ $ sudo apt -y autoremove
 ~ $ sudo reboot
 ~ $ sudo raspi-config
-~~
+~~~
 ||||||
 |---|---|---|---|---|
 |8 Update|||||
@@ -36,7 +36,7 @@ Raspberry Pi OS Lite 32bit版では VSCode のリモート接続が利用でき�
 1. GitHubサイト でリモートリポジトリ[https://github.com/tomosatoP/Sensor]を作成
 1. GitHubサイト で `LICENCE` を追加
 1. GitHubサイト で python 用の `.gitignore` を追加
-~~sh
+~~~sh
 ~ $ git config --global user.name [username]
 ~ $ git config --global user.email [useremail]
 ~ $ git clone https://github.com/tomosatoP/Sensor.git
@@ -46,16 +46,16 @@ Raspberry Pi OS Lite 32bit版では VSCode のリモート接続が利用でき�
 ~/Sensor $ git branch -M main
 ~/Sensor $ git push -u origin main
 ~/Sensor $ git pull origin main
-~~
+~~~
 
 [git commit 時に自動コードチェックと整形](https://blog.imind.jp/entry/2022/03/11/003534)
 > `git commit` 時に実行され、`pass` しないとコミットされない。
-~~sh
+~~~sh
 ~ $ sudo -H python3 -m pip install -U pre-commit black isort flake8 pyproject-flake8 mypy
 ~/Sensor $ pre-commit sample-config > .pre-commit-config.yaml
 # ".pre-commit-config.yaml" を編集
 ~/Sensor $ pre-commit autoupdate
 # rev にアップデートがあれば、".pre-commit-config.yaml" を編集
 ~/Sensor $ pre-commit install
-~~
+~~~
 `pyproject.toml` に設定を記述する。
