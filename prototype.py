@@ -22,57 +22,83 @@ class SENSORError(Exception):
         logger.error(f"SENSORError: {args}")
 
 
-def initialize(sensor_type: str) -> dict:
-    config = ConfigParser()
-    config.read("config.ini")
-    sen = config[sensor_type]
+class _sensor:
+    def __init__(self) -> None:
+        self.check()
 
-    sensorname_list: list = list(map(lambda x: x.strip(), sen["Sensorlist"].split(",")))
-    for sensorname in sensorname_list:
-        if sensorname == "tsl2572_0x39":
+    def check(self) -> bool:
+        return True
+
+    def measure(self) -> bool:
+        return True
+
+    def store(self) -> bool:
+        return True
+
+    def backup(self) -> bool:
+        return True
+
+
+def config(sensor_type: str) -> dict:
+    result: dict = dict()
+
+    def str2list(target: str, sep: str = ",") -> list:
+        return list(map(lambda x: x.strip(), target.split(sep=sep)))
+
+    config = ConfigParser(converters={"list": str2list})
+    config.read("config.ini")
+
+    for option in list(config[sensor_type]):
+        result[option] = config.getlist(sensor_type, option)  # type: ignore
+
+    return result
+
+
+def check(sensorlist: list) -> None:
+    for sensorname in sensorlist:
+        if sensorname == "mnttsl2572":
             sensor = TSL2572()
             logger.info(f"TSL2572 0x39 check id: {sensor.check_id()}")
-        elif sensorname in ["bme280_0x76", "bme280_0x77"]:
-            i2c_addr: int = int(sensorname.split("_")[1], 16)
-            sensor = BME280(i2c_addr)
-            logger.info(f"BME280 {i2c_addr:#x} check id: {sensor.check_id()}")
+        elif sensorname == "mntbme280":
+            sensor = BME280(0x77)
+            logger.info(f"BME280 0x77 check id: {sensor.check_id()}")
+        elif sensorname == "extbme280":
+            sensor = BME280(0x76)
+            logger.info(f"BME280 0x76 check id: {sensor.check_id()}")
         elif sensorname == "cpu":
             pass
         else:
             logger.info(f"{sensorname} is not found.")
-
-    return dict(sen)
 
 
 def measure(sensorname: str) -> dict:
     try:
         result: dict = dict()
 
-        if sensorname in ["cpu"]:
+        if sensorname == "cpu":
             result = {"Temp": error_value}
             command: list = ["cat", "/sys/class/thermal/thermal_zone0/temp"]
             with Popen(args=command, stdout=PIPE, text=True) as res:
                 if not res.returncode:
                     result["Temp"] = float(res.communicate()[0]) / 1000.0
 
-        elif sensorname in ["bme280_0x76", "bme280_0x77"]:
-            i2c_addr: int = int(sensorname.split("_")[1], 16)
+        elif sensorname == "extbme280":
             result = {"Temp": error_value, "Humi": error_value, "Pres": error_value}
-            sensor = BME280(i2c_addr=i2c_addr)
+            sensor = BME280(i2c_addr=0x76)
             if sensor.forced():
                 result["Temp"] = sensor.temperature
                 result["Humi"] = sensor.humidity
                 result["Pres"] = sensor.pressure
             else:
-                logger.warning(f"Sensor {i2c_addr} did not function properly.")
+                logger.warning(f"Sensor {sensorname} did not function properly.")
 
-        elif sensorname in ["tsl2572_0x39"]:
+        elif sensorname == "mnttsl2572":
             result = {"Illu": error_value}
             sensor = TSL2572()
             if sensor.single_auto_measure():
                 result["Illu"] = sensor.illuminance
             else:
-                logger.warning(f"Sensor {i2c_addr} did not function properly.")
+                logger.warning(f"Sensor {sensorname} did not function properly.")
 
     except IOError as ioerr:
         raise SENSORError(ioerr)
@@ -83,8 +109,9 @@ def measure(sensorname: str) -> dict:
 
 if __name__ == "__main__":
     # "DEFAULT", "PRZWO" ,"ADRWB", "ADRWO"
-    a = initialize("DEFAULT")
+    settings: dict = config("DEFAULT")
 
-    for sensor in list(map(lambda x: x.strip(), a["sensorlist"].split(","))):
+    check(settings["sensorlist"])
+    for sensor in settings["sensorlist"]:
         print(sensor)
         print(measure(sensor))
