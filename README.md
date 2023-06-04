@@ -30,7 +30,7 @@ Raspberry Pi Zero WH, PRZ-IR-Sensor Ver.2, 外付けBME280センサーを接続�
 ~~~sh
 ~ $ sudo apt -y install python3 python3-pip
 ~ $ sudo -H python3 -m pip install --upgrade pip
-~ $ sudo -H python3 -m pip install -U cgsensor
+~ $ sudo -H python3 -m pip install -U cgsensor pysmb
 ~ $ sudo apt install -y git
 ~ $ git clone https://github.com/tomosatoP/Sensor.git
 ~~~
