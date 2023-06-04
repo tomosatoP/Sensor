@@ -19,7 +19,7 @@ Description = sensor service
 [Service]
 Type = simple
 WorkingDirectory = [path]/Sensor/
-ExecStart = python3 [path]/Sensor/IndoorEnvironment.py
+ExecStart = python3 [path]/Sensor/sequence.py
 ~~~
 > [path] は適宜に修正。
 
