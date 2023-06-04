@@ -39,7 +39,7 @@
 Raspberry Pi OS Lite 32bit版では VSCode リモート接続不可ので、SSH接続のターミナルを利用。<br>
 > Ubuntu(on WSL2) のターミナル
 
-1. GitHubサイト でリモートリポジトリ[https://github.com/tomosatoP/Sensor]を作成
+1. GitHubサイト でリモートリポジトリ[https://github.com/tomosatoP/Sensor] を作成
 1. GitHubサイト で `LICENCE` を追加
 1. GitHubサイト で python 用の `.gitignore` を追加
 1. ターミナルから...
