@@ -25,6 +25,7 @@
 ||L4 WLAN Country|JP Japan||
 
 ~~~diff
+~ $ sudo nano /boot/config.txt
 +  dtoverlay=disable-bt
 ~~~
 
