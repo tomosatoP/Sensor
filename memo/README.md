@@ -24,6 +24,10 @@
 ||L3 Keyboard|||
 ||L4 WLAN Country|JP Japan||
 
+~~~diff:/boot/config.txt
++  dtoverlay=disable-bt
+~~~
+
 ## I2C の有効化と確認
 [温度/湿度/気圧/明るさ/赤外線 ホームIoT拡張ボード](README.md) の `I2C の有効化と確認` を参照
 
