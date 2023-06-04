@@ -37,7 +37,7 @@ Raspberry Pi Zero WH, PRZ-IR-Sensor Ver.2, 外付けBME280センサーを接続�
 
 ### 実行
 ~~~sh
-~/Sensor $ python3 IndoorEnvironment.py
+~/Sensor $ python3 sequence.py
 ~~~
 > [タイマー駆動](timer/README.md)も参照
 ---
