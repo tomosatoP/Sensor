@@ -24,7 +24,7 @@
 ||L3 Keyboard|||
 ||L4 WLAN Country|JP Japan||
 
-~~~diff_txt:/boot/config.txt
+~~~diff
 +  dtoverlay=disable-bt
 ~~~
 
